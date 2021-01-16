@@ -4,7 +4,7 @@
     <TargetFrameworks>netstandard2.0;net461</TargetFrameworks>
     <Description>Yolo Darknet Wrapper, Real-Time Object Detection (yolo core of AlexeyAB/darknet), CUDA 10.1</Description>
     <Authors>Alturos Destinations</Authors>
-    <Company>Alturos DestinationsAlturos Destinations</Company>
+    <Company>Alturos Destinations</Company>
     <PackageTags>darknet yolo yolo3 yolov3 yolo2 yolov2 objectdetection object-detection neural-network dnn deep-learning</PackageTags>
     <PackageReleaseNotes>.netstandard 2.0 support, add linux support, optimize folder structure</PackageReleaseNotes>
     <PackageIconUrl>https://raw.githubusercontent.com/AlturosDestinations/Alturos.Yolo/master/doc/logo.png</PackageIconUrl>

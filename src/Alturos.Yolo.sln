@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.29418.71
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Alturos.Yolo.TestUI", "Alturos.Yolo.TestUI\Alturos.Yolo.TestUI.csproj", "{2923401A-6C84-455A-A6CC-A13A70E13D63}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Alturos.Yolo.TestUI", "Alturos.Yolo.TestUI\Alturos.Yolo.TestUI.csproj", "{2923401A-6C84-455A-A6CC-A13A70E13D63}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Alturos.Yolo.TestConsole", "Alturos.Yolo.TestConsole\Alturos.Yolo.TestConsole.csproj", "{C6A638E4-40ED-4F73-8F78-B9465FBE475D}"
 EndProject
@@ -11,7 +11,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Alturos.Yolo.UnitTest", "Al
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Alturos.Yolo.WebService", "Alturos.Yolo.WebService\Alturos.Yolo.WebService.csproj", "{AC917731-93FA-414F-88F4-0D3298F1FDE3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Alturos.Yolo", "Alturos.Yolo\Alturos.Yolo.csproj", "{2C530266-A3DA-4175-8311-06E5A2378F22}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Alturos.Yolo", "Alturos.Yolo\Alturos.Yolo.csproj", "{2C530266-A3DA-4175-8311-06E5A2378F22}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -73,9 +73,10 @@
             // 
             // buttonProcessImage
             // 
-            this.buttonProcessImage.Location = new System.Drawing.Point(9, 9);
+            this.buttonProcessImage.Location = new System.Drawing.Point(10, 10);
+            this.buttonProcessImage.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.buttonProcessImage.Name = "buttonProcessImage";
-            this.buttonProcessImage.Size = new System.Drawing.Size(120, 25);
+            this.buttonProcessImage.Size = new System.Drawing.Size(140, 29);
             this.buttonProcessImage.TabIndex = 0;
             this.buttonProcessImage.Text = "Process Image";
             this.buttonProcessImage.UseVisualStyleBackColor = true;
@@ -96,12 +97,13 @@
             this.ColumnResultWidth,
             this.ColumnResultHeight});
             this.dataGridViewResult.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dataGridViewResult.Location = new System.Drawing.Point(3, 16);
+            this.dataGridViewResult.Location = new System.Drawing.Point(4, 19);
+            this.dataGridViewResult.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.dataGridViewResult.MultiSelect = false;
             this.dataGridViewResult.Name = "dataGridViewResult";
             this.dataGridViewResult.ReadOnly = true;
             this.dataGridViewResult.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dataGridViewResult.Size = new System.Drawing.Size(697, 175);
+            this.dataGridViewResult.Size = new System.Drawing.Size(811, 203);
             this.dataGridViewResult.TabIndex = 1;
             this.dataGridViewResult.SelectionChanged += new System.EventHandler(this.dataGridViewResult_SelectionChanged);
             // 
@@ -158,9 +160,10 @@
             // pictureBox1
             // 
             this.pictureBox1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pictureBox1.Location = new System.Drawing.Point(3, 16);
+            this.pictureBox1.Location = new System.Drawing.Point(4, 19);
+            this.pictureBox1.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(397, 229);
+            this.pictureBox1.Size = new System.Drawing.Size(461, 272);
             this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.pictureBox1.TabIndex = 2;
             this.pictureBox1.TabStop = false;
@@ -178,13 +181,14 @@
             this.ColumnHeight});
             this.dataGridViewFiles.ContextMenuStrip = this.contextMenuStrip1;
             this.dataGridViewFiles.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dataGridViewFiles.Location = new System.Drawing.Point(3, 3);
+            this.dataGridViewFiles.Location = new System.Drawing.Point(4, 3);
+            this.dataGridViewFiles.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.dataGridViewFiles.MultiSelect = false;
             this.dataGridViewFiles.Name = "dataGridViewFiles";
             this.dataGridViewFiles.ReadOnly = true;
             this.dataGridViewFiles.RowHeadersVisible = false;
             this.dataGridViewFiles.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dataGridViewFiles.Size = new System.Drawing.Size(294, 248);
+            this.dataGridViewFiles.Size = new System.Drawing.Size(342, 294);
             this.dataGridViewFiles.TabIndex = 3;
             this.dataGridViewFiles.SelectionChanged += new System.EventHandler(this.dataGridViewFiles_SelectionChanged);
             this.dataGridViewFiles.KeyDown += new System.Windows.Forms.KeyEventHandler(this.dataGridViewFiles_KeyDown);
@@ -236,9 +240,11 @@
             this.tableLayoutPanel1.SetColumnSpan(this.groupBoxResult, 2);
             this.groupBoxResult.Controls.Add(this.dataGridViewResult);
             this.groupBoxResult.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.groupBoxResult.Location = new System.Drawing.Point(3, 307);
+            this.groupBoxResult.Location = new System.Drawing.Point(4, 361);
+            this.groupBoxResult.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.groupBoxResult.Name = "groupBoxResult";
-            this.groupBoxResult.Size = new System.Drawing.Size(703, 194);
+            this.groupBoxResult.Padding = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            this.groupBoxResult.Size = new System.Drawing.Size(819, 225);
             this.groupBoxResult.TabIndex = 4;
             this.groupBoxResult.TabStop = false;
             this.groupBoxResult.Text = "Result";
@@ -246,7 +252,7 @@
             // tableLayoutPanel1
             // 
             this.tableLayoutPanel1.ColumnCount = 2;
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 300F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 350F));
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tableLayoutPanel1.Controls.Add(this.groupBox2, 1, 0);
             this.tableLayoutPanel1.Controls.Add(this.dataGridViewFiles, 0, 0);
@@ -254,21 +260,24 @@
             this.tableLayoutPanel1.Controls.Add(this.panel1, 0, 1);
             this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel1.Location = new System.Drawing.Point(0, 24);
+            this.tableLayoutPanel1.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
             this.tableLayoutPanel1.RowCount = 3;
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 50F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 200F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(709, 504);
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 58F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 231F));
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(827, 589);
             this.tableLayoutPanel1.TabIndex = 5;
             // 
             // groupBox2
             // 
             this.groupBox2.Controls.Add(this.pictureBox1);
             this.groupBox2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.groupBox2.Location = new System.Drawing.Point(303, 3);
+            this.groupBox2.Location = new System.Drawing.Point(354, 3);
+            this.groupBox2.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(403, 248);
+            this.groupBox2.Padding = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            this.groupBox2.Size = new System.Drawing.Size(469, 294);
             this.groupBox2.TabIndex = 2;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Preview";
@@ -279,16 +288,18 @@
             this.panel1.Controls.Add(this.buttonStartTracking);
             this.panel1.Controls.Add(this.buttonProcessImage);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panel1.Location = new System.Drawing.Point(3, 257);
+            this.panel1.Location = new System.Drawing.Point(4, 303);
+            this.panel1.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(703, 44);
+            this.panel1.Size = new System.Drawing.Size(819, 52);
             this.panel1.TabIndex = 4;
             // 
             // buttonStartTracking
             // 
-            this.buttonStartTracking.Location = new System.Drawing.Point(135, 10);
+            this.buttonStartTracking.Location = new System.Drawing.Point(158, 12);
+            this.buttonStartTracking.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.buttonStartTracking.Name = "buttonStartTracking";
-            this.buttonStartTracking.Size = new System.Drawing.Size(120, 23);
+            this.buttonStartTracking.Size = new System.Drawing.Size(140, 27);
             this.buttonStartTracking.TabIndex = 1;
             this.buttonStartTracking.Text = "Start Tracking";
             this.buttonStartTracking.UseVisualStyleBackColor = true;
@@ -298,9 +309,10 @@
             // 
             this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripStatusLabelYoloInfo});
-            this.statusStrip1.Location = new System.Drawing.Point(0, 528);
+            this.statusStrip1.Location = new System.Drawing.Point(0, 613);
             this.statusStrip1.Name = "statusStrip1";
-            this.statusStrip1.Size = new System.Drawing.Size(709, 22);
+            this.statusStrip1.Padding = new System.Windows.Forms.Padding(1, 0, 16, 0);
+            this.statusStrip1.Size = new System.Drawing.Size(827, 22);
             this.statusStrip1.TabIndex = 6;
             this.statusStrip1.Text = "statusStrip1";
             // 
@@ -317,7 +329,8 @@
             this.downloadToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(709, 24);
+            this.menuStrip1.Padding = new System.Windows.Forms.Padding(7, 2, 0, 2);
+            this.menuStrip1.Size = new System.Drawing.Size(827, 24);
             this.menuStrip1.TabIndex = 7;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -331,10 +344,8 @@
             // 
             // cpuToolStripMenuItem
             // 
-            this.cpuToolStripMenuItem.Checked = false;
-            this.cpuToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Unchecked;
             this.cpuToolStripMenuItem.Name = "cpuToolStripMenuItem";
-            this.cpuToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.cpuToolStripMenuItem.Size = new System.Drawing.Size(142, 22);
             this.cpuToolStripMenuItem.Text = "Use only cpu";
             this.cpuToolStripMenuItem.Click += new System.EventHandler(this.gpuToolStripMenuItem_Click);
             // 
@@ -348,13 +359,14 @@
             // 
             // Main
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(709, 550);
+            this.ClientSize = new System.Drawing.Size(827, 635);
             this.Controls.Add(this.tableLayoutPanel1);
             this.Controls.Add(this.statusStrip1);
             this.Controls.Add(this.menuStrip1);
             this.MainMenuStrip = this.menuStrip1;
+            this.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.Name = "Main";
             this.Text = "change by code";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Main_FormClosing);
