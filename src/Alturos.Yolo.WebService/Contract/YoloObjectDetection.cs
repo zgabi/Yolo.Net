@@ -12,28 +12,28 @@ namespace Alturos.Yolo.WebService.Contract
         {
             var configurationDetector = new YoloConfigurationDetector();
             var configuration = configurationDetector.Detect();
-            this._yoloWrapper = new YoloWrapper(configuration);
+            _yoloWrapper = new YoloWrapper(configuration);
         }
 
         public void Dispose()
         {
-            this.Dispose(true);
+            Dispose(true);
             GC.SuppressFinalize(this);
         }
 
         protected virtual void Dispose(bool disposing)
         {
-            this._yoloWrapper?.Dispose();
+            _yoloWrapper?.Dispose();
         }
 
         public IEnumerable<YoloItem> Detect(byte[] imageData)
         {
-            return this._yoloWrapper.Detect(imageData);
+            return _yoloWrapper.Detect(imageData);
         }
 
         public IEnumerable<YoloItem> Detect(string filePath)
         {
-            return this._yoloWrapper.Detect(filePath);
+            return _yoloWrapper.Detect(filePath);
         }
     }
 }

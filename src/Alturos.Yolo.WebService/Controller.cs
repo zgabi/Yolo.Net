@@ -29,11 +29,11 @@ namespace Alturos.Yolo.WebService
         {
             Log.Debug($"{nameof(Start)} - {SystemName}");
 
-            this._container = new Container();
-            this._container.Register<IObjectDetection, YoloObjectDetection>(Lifestyle.Singleton);
+            _container = new Container();
+            _container.Register<IObjectDetection, YoloObjectDetection>(Lifestyle.Singleton);
 
             var port = int.Parse(ConfigurationManager.AppSettings.Get("WebServerPort"));
-            this.RegisterWebApi(port);
+            RegisterWebApi(port);
             return true;
         }
 
@@ -41,8 +41,8 @@ namespace Alturos.Yolo.WebService
         {
             Log.Debug($"{nameof(Stop)} - {SystemName}");
 
-            this._webApp?.Dispose();
-            this._container?.Dispose();
+            _webApp?.Dispose();
+            _container?.Dispose();
 
             return true;
         }
@@ -56,7 +56,7 @@ namespace Alturos.Yolo.WebService
 
             try
             {
-                this._webApp = WebApp.Start(url, (app) =>
+                _webApp = WebApp.Start(url, (app) =>
                 {
                     //Use JSON friendly default settings
                     var defaultSettings = new JsonSerializerSettings
@@ -68,7 +68,7 @@ namespace Alturos.Yolo.WebService
                     JsonConvert.DefaultSettings = () => { return defaultSettings; };
 
                     var config = new HttpConfiguration();
-                    config.DependencyResolver = new SimpleInjectorWebApiDependencyResolver(this._container);
+                    config.DependencyResolver = new SimpleInjectorWebApiDependencyResolver(_container);
 
                     //Specify JSON as the default media type
                     config.Formatters.Clear();

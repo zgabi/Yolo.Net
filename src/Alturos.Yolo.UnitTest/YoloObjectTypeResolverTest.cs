@@ -8,7 +8,7 @@ namespace Alturos.Yolo.UnitTest
         [TestMethod]
         public void ResolveObjectId()
         {
-            var names = new string[] { "Car", "Cat", "Bike" };
+            var names = new[] { "Car", "Cat", "Bike" };
 
             var resolver = new YoloObjectTypeResolver(names);
 

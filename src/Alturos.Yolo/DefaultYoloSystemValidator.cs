@@ -18,7 +18,7 @@ namespace Alturos.Yolo
 
             if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
             {
-                report.MicrosoftVisualCPlusPlusRedistributableExists = this.IsMicrosoftVisualCPlusPlus2017Available();
+                report.MicrosoftVisualCPlusPlusRedistributableExists = IsMicrosoftVisualCPlusPlus2017Available();
             }
             else
             {
@@ -36,12 +36,13 @@ namespace Alturos.Yolo
                 report.CudnnExists = true;
             }
 
-            var envirormentVariables = Environment.GetEnvironmentVariables(EnvironmentVariableTarget.Machine);
-            if (envirormentVariables.Contains("CUDA_PATH"))
+            var environmentVariables = Environment.GetEnvironmentVariables(EnvironmentVariableTarget.Machine);
+            if (environmentVariables.Contains("CUDA_PATH"))
             {
                 report.CudaExists = true;
             }
-            if (envirormentVariables.Contains("CUDA_PATH_V10_2"))
+
+            if (environmentVariables.Contains("CUDA_PATH_V10_2"))
             {
                 report.CudaExists = true;
             }

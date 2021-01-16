@@ -26,7 +26,7 @@ namespace Alturos.Yolo.UnitTest
             var configuration = new YoloConfigurationDetector().Detect();
             using (var yoloWrapper = new YoloWrapper(configuration))
             {
-                var items = yoloWrapper.Detect(this._imagePath);
+                var items = yoloWrapper.Detect(_imagePath);
                 Assert.IsTrue(items.Count() > 0);
             }
         }
@@ -37,7 +37,7 @@ namespace Alturos.Yolo.UnitTest
             var configuration = new YoloConfigurationDetector().Detect();
             using (var yoloWrapper = new YoloWrapper(configuration))
             {
-                var imageData = File.ReadAllBytes(this._imagePath);
+                var imageData = File.ReadAllBytes(_imagePath);
                 var items = yoloWrapper.Detect(imageData);
                 Assert.IsTrue(items.Count() > 0);
             }

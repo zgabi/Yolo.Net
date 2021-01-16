@@ -26,38 +26,38 @@ namespace Alturos.Yolo
         private static extern int InitializeYoloCpu(string configurationFilename, string weightsFilename, int gpuIndex);
 
         [DllImport(YoloLibraryCpu, EntryPoint = "detect_image")]
-        internal static extern int DetectImageCpu(string filename, ref BboxContainer container);
+        private static extern int DetectImageCpu(string filename, ref BboxContainer container);
 
         [DllImport(YoloLibraryCpu, EntryPoint = "detect_mat")]
-        internal static extern int DetectImageCpu(IntPtr pArray, int nSize, ref BboxContainer container);
+        private static extern int DetectImageCpu(IntPtr pArray, int nSize, ref BboxContainer container);
 
         [DllImport(YoloLibraryCpu, EntryPoint = "dispose")]
-        internal static extern int DisposeYoloCpu();
+        private static extern int DisposeYoloCpu();
 
         [DllImport(YoloLibraryCpu, EntryPoint = "built_with_opencv")]
-        internal static extern bool BuiltWithOpenCV();
+        private static extern bool BuiltWithOpenCV();
 
         #endregion
 
         #region DllImport Gpu
 
         [DllImport(YoloLibraryGpu, EntryPoint = "init")]
-        internal static extern int InitializeYoloGpu(string configurationFilename, string weightsFilename, int gpuIndex);
+        private static extern int InitializeYoloGpu(string configurationFilename, string weightsFilename, int gpuIndex);
 
         [DllImport(YoloLibraryGpu, EntryPoint = "detect_image")]
-        internal static extern int DetectImageGpu(string filename, ref BboxContainer container);
+        private static extern int DetectImageGpu(string filename, ref BboxContainer container);
 
         [DllImport(YoloLibraryGpu, EntryPoint = "detect_mat")]
-        internal static extern int DetectImageGpu(IntPtr pArray, int nSize, ref BboxContainer container);
+        private static extern int DetectImageGpu(IntPtr pArray, int nSize, ref BboxContainer container);
 
         [DllImport(YoloLibraryGpu, EntryPoint = "dispose")]
-        internal static extern int DisposeYoloGpu();
+        private static extern int DisposeYoloGpu();
 
         [DllImport(YoloLibraryGpu, EntryPoint = "get_device_count")]
-        internal static extern int GetDeviceCount();
+        private static extern int GetDeviceCount();
 
         [DllImport(YoloLibraryGpu, EntryPoint = "get_device_name")]
-        internal static extern int GetDeviceName(int gpu, StringBuilder deviceName);
+        private static extern int GetDeviceName(int gpu, StringBuilder deviceName);
 
 #endregion
 
@@ -65,42 +65,42 @@ namespace Alturos.Yolo
         /// Initialize Yolo
         /// </summary>
         /// <param name="yoloConfiguration"></param>
-        /// <param name="ignoreGpu">Disable automatic gpu detection</param>
+        /// <param name="gpuConfig">GPU Configuration</param>
+        /// <param name="yoloSystemValidator">Yolo System validator</param>
         /// <exception cref="NotSupportedException">Thrown when the process not run in 64bit</exception>
         /// <exception cref="YoloInitializeException">Thrown if an error occurs during initialization</exception>
         public YoloWrapper(YoloConfiguration yoloConfiguration, GpuConfig gpuConfig = null, IYoloSystemValidator yoloSystemValidator = null)
         {
             if (yoloSystemValidator == null)
             {
-                this._yoloSystemValidator = new DefaultYoloSystemValidator();
+                _yoloSystemValidator = new DefaultYoloSystemValidator();
             }
 
-            this.Initialize(yoloConfiguration.ConfigFile, yoloConfiguration.WeightsFile, yoloConfiguration.NamesFile, gpuConfig);
+            Initialize(yoloConfiguration.ConfigFile, yoloConfiguration.WeightsFile, yoloConfiguration.NamesFile, gpuConfig);
         }
 
         /// <summary>
         /// Initialize Yolo
         /// </summary>
         /// <param name="configurationFilename">Yolo configuration (.cfg) file path</param>
-        /// <param name="weightsFilename">Yolo trainded data (.weights) file path</param>
+        /// <param name="weightsFilename">Yolo trained data (.weights) file path</param>
         /// <param name="namesFilename">Yolo object names (.names) file path</param>
-        /// <param name="gpu">Gpu Index if multiple graphic devices available</param>
-        /// <param name="ignoreGpu">Disable automatic gpu detection</param>
+        /// <param name="gpuConfig">Gpu Index if multiple graphic devices available</param>
         /// <exception cref="NotSupportedException">Thrown when the process not run in 64bit</exception>
         /// <exception cref="YoloInitializeException">Thrown if an error occurs during initialization</exception>
         public YoloWrapper(string configurationFilename, string weightsFilename, string namesFilename, GpuConfig gpuConfig = null, IYoloSystemValidator yoloSystemValidator = null)
         {
             if (yoloSystemValidator == null)
             {
-                this._yoloSystemValidator = new DefaultYoloSystemValidator();
+                _yoloSystemValidator = new DefaultYoloSystemValidator();
             }
 
-            this.Initialize(configurationFilename, weightsFilename, namesFilename, gpuConfig);
+            Initialize(configurationFilename, weightsFilename, namesFilename, gpuConfig);
         }
 
         public void Dispose()
         {
-            switch (this.DetectionSystem)
+            switch (DetectionSystem)
             {
                 case DetectionSystem.CPU:
                     DisposeYoloCpu();
@@ -118,51 +118,53 @@ namespace Alturos.Yolo
                 throw new NotSupportedException("Only 64-bit processes are supported");
             }
 
-            var systemReport = this._yoloSystemValidator.Validate();
+            var systemReport = _yoloSystemValidator.Validate();
             if (!systemReport.MicrosoftVisualCPlusPlusRedistributableExists)
             {
                 throw new YoloInitializeException("Microsoft Visual C++ 2017-2019 Redistributable (x64)");
             }
 
-            this.DetectionSystem = DetectionSystem.CPU;
+            DetectionSystem = DetectionSystem.CPU;
 
+            int gpuIndex = 0;
             if (gpuConfig != null)
             {
                 if (!systemReport.CudaExists)
                 {
-                    throw new YoloInitializeException("Cuda files not found");
+                    throw new YoloInitializeException("CUDA files not found");
                 }
 
                 if (!systemReport.CudnnExists)
                 {
-                    throw new YoloInitializeException("Cudnn not found");
+                    throw new YoloInitializeException("cuDNN not found");
                 }
 
                 var deviceCount = GetDeviceCount();
                 if (deviceCount == 0)
                 {
-                    throw new YoloInitializeException("No Nvidia graphic device is available");
+                    throw new YoloInitializeException("No NVIDIA graphic device is available");
                 }
 
-                if (gpuConfig.GpuIndex > (deviceCount - 1))
+                if (gpuConfig.GpuIndex >= deviceCount)
                 {
                     throw new YoloInitializeException("Graphic device index is out of range");
                 }
 
-                this.DetectionSystem = DetectionSystem.GPU;
+                DetectionSystem = DetectionSystem.GPU;
+                gpuIndex = gpuConfig.GpuIndex;
             }
 
-            switch (this.DetectionSystem)
+            switch (DetectionSystem)
             {
                 case DetectionSystem.CPU:
                     InitializeYoloCpu(configurationFilename, weightsFilename, 0);
                     break;
                 case DetectionSystem.GPU:
-                    InitializeYoloGpu(configurationFilename, weightsFilename, gpuConfig.GpuIndex);
+                    InitializeYoloGpu(configurationFilename, weightsFilename, gpuIndex);
                     break;
             }
 
-            this._objectTypeResolver = new YoloObjectTypeResolver(namesFilename);
+            _objectTypeResolver = new YoloObjectTypeResolver(namesFilename);
         }
 
         /// <summary>
@@ -180,7 +182,7 @@ namespace Alturos.Yolo
 
             var container = new BboxContainer();
             var count = 0;
-            switch (this.DetectionSystem)
+            switch (DetectionSystem)
             {
                 case DetectionSystem.CPU:
                     count = DetectImageCpu(filepath, ref container);
@@ -195,7 +197,7 @@ namespace Alturos.Yolo
                 throw new NotImplementedException("C++ dll compiled incorrectly");
             }
 
-            return this.Convert(container);
+            return Convert(container);
         }
 
         /// <summary>
@@ -207,7 +209,7 @@ namespace Alturos.Yolo
         /// <exception cref="Exception">Thrown when the byte array is not a valid image</exception>
         public IEnumerable<YoloItem> Detect(byte[] imageData)
         {
-            if (!this._imageAnalyzer.IsValidImageFormat(imageData))
+            if (!_imageAnalyzer.IsValidImageFormat(imageData))
             {
                 throw new Exception("Invalid image data, wrong image format");
             }
@@ -221,7 +223,7 @@ namespace Alturos.Yolo
             {
                 // Copy the array to unmanaged memory.
                 Marshal.Copy(imageData, 0, pnt, imageData.Length);
-                switch (this.DetectionSystem)
+                switch (DetectionSystem)
                 {
                     case DetectionSystem.CPU:
                         count = DetectImageCpu(pnt, imageData.Length, ref container);
@@ -246,7 +248,7 @@ namespace Alturos.Yolo
                 throw new NotImplementedException("C++ dll compiled incorrectly");
             }
 
-            return this.Convert(container);
+            return Convert(container);
         }
 
         /// <summary>
@@ -263,7 +265,7 @@ namespace Alturos.Yolo
             var count = 0;
             try
             {
-                switch (this.DetectionSystem)
+                switch (DetectionSystem)
                 {
                     case DetectionSystem.CPU:
                         count = DetectImageCpu(imagePtr, size, ref container);
@@ -283,7 +285,7 @@ namespace Alturos.Yolo
                 throw new NotImplementedException("C++ dll compiled incorrectly");
             }
 
-            return this.Convert(container);
+            return Convert(container);
         }
 
         public string GetGraphicDeviceName(GpuConfig gpuConfig)
@@ -293,7 +295,7 @@ namespace Alturos.Yolo
                 return string.Empty;
             }
 
-            var systemReport = this._yoloSystemValidator.Validate();
+            var systemReport = _yoloSystemValidator.Validate();
             if (!systemReport.CudaExists || !systemReport.CudnnExists)
             {
                 return "unknown";
@@ -320,7 +322,7 @@ namespace Alturos.Yolo
                     Height = (int)o.h,
                     Width = (int)o.w,
                     Confidence = o.prob,
-                    Type = this._objectTypeResolver.Resolve((int)o.obj_id)
+                    Type = _objectTypeResolver.Resolve((int)o.obj_id)
                 }
             );
         }

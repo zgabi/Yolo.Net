@@ -9,10 +9,10 @@ namespace Alturos.Yolo
     {
         public byte[] Resize(byte[] imageData, int width, int height)
         {
-            using (var image = this.Byte2Image(imageData))
-            using (var resizedImage = this.ResizeImage(image, width, height))
+            using (var image = Byte2Image(imageData))
+            using (var resizedImage = ResizeImage(image, width, height))
             {
-                return this.Image2Byte(resizedImage);
+                return Image2Byte(resizedImage);
             }
         }
 

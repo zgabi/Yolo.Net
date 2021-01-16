@@ -7,13 +7,13 @@ using System.Threading.Tasks;
 
 namespace Alturos.Yolo
 {
-    public class YoloPreTrainedDatasetRepository
+    public class YoloPreTrainedDataSetRepository
     {
-        private readonly YoloPreTrainedData[] _preTrainedDatas;
+        private readonly YoloPreTrainedData[] _preTrainedData;
 
-        public YoloPreTrainedDatasetRepository()
+        public YoloPreTrainedDataSetRepository()
         {
-            this._preTrainedDatas = new YoloPreTrainedData[]
+            _preTrainedData = new[]
             {
                 new YoloPreTrainedData
                 {
@@ -46,33 +46,33 @@ namespace Alturos.Yolo
             };
         }
 
-        public async Task<string[]> GetDatasetsAsync()
+        public async Task<string[]> GetDataSetsAsync()
         {
-            var names = this._preTrainedDatas.Select(o => o.Name).ToArray();
+            var names = _preTrainedData.Select(o => o.Name).ToArray();
             return await Task.FromResult(names);
         }
 
-        public async Task<bool> DownloadDatasetAsync(string name, string destinationPath)
+        public async Task<bool> DownloadDataSetAsync(string name, string destinationPath)
         {
             Directory.CreateDirectory(destinationPath);
 
-            var preTrainedData = this._preTrainedDatas.Where(o => o.Name.Equals(name, StringComparison.OrdinalIgnoreCase)).FirstOrDefault();
+            var preTrainedData = _preTrainedData.Where(o => o.Name.Equals(name, StringComparison.OrdinalIgnoreCase)).FirstOrDefault();
             if (preTrainedData == null)
             {
                 return false;
             }
 
-            if (!await this.DownloadAsync(preTrainedData.ConfigFileUrl, destinationPath).ConfigureAwait(false))
+            if (!await DownloadAsync(preTrainedData.ConfigFileUrl, destinationPath).ConfigureAwait(false))
             {
                 return false;
             }
 
-            if (!await this.DownloadAsync(preTrainedData.NamesFileUrl, destinationPath).ConfigureAwait(false))
+            if (!await DownloadAsync(preTrainedData.NamesFileUrl, destinationPath).ConfigureAwait(false))
             {
                 return false;
             }
 
-            if (!await this.DownloadAsync(preTrainedData.WeightsFileUrl, destinationPath).ConfigureAwait(false))
+            if (!await DownloadAsync(preTrainedData.WeightsFileUrl, destinationPath).ConfigureAwait(false))
             {
                 return false;
             }
@@ -81,7 +81,7 @@ namespace Alturos.Yolo
             {
                 foreach (var optionalFile in preTrainedData.OptionalFileUrls)
                 {
-                    if (!await this.DownloadAsync(optionalFile, destinationPath).ConfigureAwait(false))
+                    if (!await DownloadAsync(optionalFile, destinationPath).ConfigureAwait(false))
                     {
                         return false;
                     }

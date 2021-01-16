@@ -11,7 +11,7 @@ namespace Alturos.Yolo.TestUI
     {
         public IEnumerable<ImageInfo> Analyze(string path)
         {
-            var allowedFileExtensions = new string[] { ".bmp", ".jpg", ".png" };
+            var allowedFileExtensions = new[] { ".bmp", ".jpg", ".png" };
 
             var files = Directory.GetFiles(path);
             foreach (var file in files)
@@ -22,7 +22,7 @@ namespace Alturos.Yolo.TestUI
                 }
 
                 var fileInfo = new FileInfo(file);
-                var resolution = this.GetImageResolution(file);
+                var resolution = GetImageResolution(file);
 
                 var imageInfo = new ImageInfo();
                 imageInfo.Name = fileInfo.Name;

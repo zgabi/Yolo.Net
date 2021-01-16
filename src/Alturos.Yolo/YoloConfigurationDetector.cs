@@ -6,16 +6,16 @@ namespace Alturos.Yolo
     public class YoloConfigurationDetector
     {
         /// <summary>
-        /// Automatict detect the yolo configuration on the given path
+        /// Automatic detect the yolo configuration on the given path
         /// </summary>
         /// <param name="path"></param>
         /// <returns></returns>
         /// <exception cref="FileNotFoundException">Thrown when cannot found one of the required yolo files</exception>
         public YoloConfiguration Detect(string path = ".")
         {
-            var files = this.GetYoloFiles(path);
-            var yoloConfiguration = this.MapFiles(files);
-            var configValid = this.AreValidYoloFiles(yoloConfiguration);
+            var files = GetYoloFiles(path);
+            var yoloConfiguration = MapFiles(files);
+            var configValid = AreValidYoloFiles(yoloConfiguration);
 
             if (configValid)
             {

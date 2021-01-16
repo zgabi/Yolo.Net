@@ -13,7 +13,7 @@ namespace Alturos.Yolo.WebService.Communication.WebApi
 
         public ObjectDetectionController(IObjectDetection objectDetection)
         {
-            this._objectDetection = objectDetection;
+            _objectDetection = objectDetection;
         }
 
         /// <summary>
@@ -28,7 +28,7 @@ namespace Alturos.Yolo.WebService.Communication.WebApi
         {
             try
             {
-                var items = this._objectDetection.Detect(imageData);
+                var items = _objectDetection.Detect(imageData);
                 return Ok(items);
             }
             catch (Exception exception)
@@ -49,7 +49,7 @@ namespace Alturos.Yolo.WebService.Communication.WebApi
         {
             try
             {
-                var items = this._objectDetection.Detect(filePath);
+                var items = _objectDetection.Detect(filePath);
                 return Ok(items);
             }
             catch (Exception exception)

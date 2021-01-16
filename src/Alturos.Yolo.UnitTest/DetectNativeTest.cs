@@ -22,12 +22,11 @@ namespace Alturos.Yolo.UnitTest
                     canvas.FillPie(Brushes.Black, 0, 0, 100, 100, 0, 360);
                     canvas.Flush();
 
-                    BitmapData bmpdata = null;
-                    bmpdata = image.LockBits(new Rectangle(0, 0, image.Width, image.Height),
+                    BitmapData bmpData = image.LockBits(new Rectangle(0, 0, image.Width, image.Height),
                         ImageLockMode.ReadOnly,
                         image.PixelFormat);
 
-                    var rawImagePtr = bmpdata.Scan0;
+                    var rawImagePtr = bmpData.Scan0;
                     var bmpImagePtr = IntPtr.Zero;
 
                     try

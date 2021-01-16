@@ -17,29 +17,29 @@ namespace Alturos.Yolo.TestUI
 
         public Main()
         {
-            this.InitializeComponent();
+            InitializeComponent();
 
-            this.buttonProcessImage.Enabled = false;
-            this.buttonStartTracking.Enabled = false;
+            buttonProcessImage.Enabled = false;
+            buttonStartTracking.Enabled = false;
 
-            this.menuStrip1.Visible = false;
+            menuStrip1.Visible = false;
 
-            this.toolStripStatusLabelYoloInfo.Text = string.Empty;
+            toolStripStatusLabelYoloInfo.Text = string.Empty;
 
-            this.Text = $"Alturos Yolo TestUI {Application.ProductVersion}";
-            this.dataGridViewFiles.AutoGenerateColumns = false;
-            this.dataGridViewResult.AutoGenerateColumns = false;
+            Text = $"Alturos Yolo TestUI {Application.ProductVersion}";
+            dataGridViewFiles.AutoGenerateColumns = false;
+            dataGridViewResult.AutoGenerateColumns = false;
 
             var imageInfos = new DirectoryImageReader().Analyze(@".\Images");
-            this.dataGridViewFiles.DataSource = imageInfos.ToList();
+            dataGridViewFiles.DataSource = imageInfos.ToList();
 
-            Task.Run(() => this.Initialize("."));
-            this.LoadAvailableConfigurations();
+            Task.Run(() => Initialize("."));
+            LoadAvailableConfigurations();
         }
 
         private void Main_FormClosing(object sender, FormClosingEventArgs e)
         {
-            this._yoloWrapper?.Dispose();
+            _yoloWrapper?.Dispose();
         }
 
         private void LoadAvailableConfigurations()
@@ -57,108 +57,108 @@ namespace Alturos.Yolo.TestUI
                 return;
             }
 
-            this.menuStrip1.Visible = true;
+            menuStrip1.Visible = true;
 
             foreach (var config in configs)
             {
                 var menuItem = new ToolStripMenuItem();
                 menuItem.Text = config;
-                menuItem.Click += (object sender, EventArgs e) => { this.Initialize(config); };
-                this.configurationToolStripMenuItem.DropDownItems.Add(menuItem);
+                menuItem.Click += (object sender, EventArgs e) => { Initialize(config); };
+                configurationToolStripMenuItem.DropDownItems.Add(menuItem);
             }
         }
 
         private ImageInfo GetCurrentImage()
         {
-            var item = this.dataGridViewFiles.CurrentRow?.DataBoundItem as ImageInfo;
+            var item = dataGridViewFiles.CurrentRow?.DataBoundItem as ImageInfo;
             return item;
         }
 
         private void dataGridViewFiles_SelectionChanged(object sender, EventArgs e)
         {
-            var oldImage = this.pictureBox1.Image;
-            var imageInfo = this.GetCurrentImage();           
-            this.pictureBox1.Image = Image.FromFile(imageInfo.Path);            
+            var oldImage = pictureBox1.Image;
+            var imageInfo = GetCurrentImage();           
+            pictureBox1.Image = Image.FromFile(imageInfo.Path);            
             oldImage?.Dispose();
 
-            this.dataGridViewResult.DataSource = null;
-            this.groupBoxResult.Text = $"Result";
+            dataGridViewResult.DataSource = null;
+            groupBoxResult.Text = $"Result";
         }
 
         private void dataGridViewFiles_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.KeyCode == Keys.Space)
             {
-                this.DetectSelectedImage();
+                DetectSelectedImage();
             }
         }
 
         private void dataGridViewResult_SelectionChanged(object sender, EventArgs e)
         {
-            if (!this.dataGridViewResult.Focused)
+            if (!dataGridViewResult.Focused)
             {
                 return;
             }
 
-            var items = this.dataGridViewResult.DataSource as List<YoloItem>;
-            var selectedItem = this.dataGridViewResult.CurrentRow?.DataBoundItem as YoloItem;
-            this.DrawBoundingBoxes(items, selectedItem);
+            var items = dataGridViewResult.DataSource as List<YoloItem>;
+            var selectedItem = dataGridViewResult.CurrentRow?.DataBoundItem as YoloItem;
+            DrawBoundingBoxes(items, selectedItem);
         }
 
         private void openFolderToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            var dialogResult = this.folderBrowserDialog1.ShowDialog();
+            var dialogResult = folderBrowserDialog1.ShowDialog();
             if (dialogResult != DialogResult.OK)
             {
                 return;
             }
 
-            var imageInfos = new DirectoryImageReader().Analyze(this.folderBrowserDialog1.SelectedPath);
-            this.dataGridViewFiles.DataSource = imageInfos.ToList();
+            var imageInfos = new DirectoryImageReader().Analyze(folderBrowserDialog1.SelectedPath);
+            dataGridViewFiles.DataSource = imageInfos.ToList();
         }
 
         private void buttonProcessImage_Click(object sender, EventArgs e)
         {
-            this.DetectSelectedImage();
+            DetectSelectedImage();
         }
 
         private async void buttonStartTracking_Click(object sender, EventArgs e)
         {
-            await this.StartTrackingAsync();
+            await StartTrackingAsync();
         }
 
         private async Task StartTrackingAsync()
         {
-            this.buttonStartTracking.Enabled = false;
+            buttonStartTracking.Enabled = false;
 
-            var imageInfo = this.GetCurrentImage();
+            var imageInfo = GetCurrentImage();
 
             var yoloTracking = new YoloTracking(imageInfo.Width, imageInfo.Height);
-            var count = this.dataGridViewFiles.RowCount;
+            var count = dataGridViewFiles.RowCount;
             for (var i = 0; i < count; i++)
             {
                 if (i > 0)
                 {
-                    this.dataGridViewFiles.Rows[i - 1].Selected = false;
+                    dataGridViewFiles.Rows[i - 1].Selected = false;
                 }
 
-                this.dataGridViewFiles.Rows[i].Selected = true;
-                this.dataGridViewFiles.CurrentCell = this.dataGridViewFiles.Rows[i].Cells[0];
+                dataGridViewFiles.Rows[i].Selected = true;
+                dataGridViewFiles.CurrentCell = dataGridViewFiles.Rows[i].Cells[0];
 
-                var items = this.Detect();
+                var items = Detect();
 
                 var trackingItems = yoloTracking.Analyse(items);
-                this.DrawBoundingBoxes(trackingItems);
+                DrawBoundingBoxes(trackingItems);
 
                 await Task.Delay(100);
             }
 
-            this.buttonStartTracking.Enabled = true;
+            buttonStartTracking.Enabled = true;
         }
 
         private void DrawBoundingBoxes(IEnumerable<YoloTrackingItem> items)
         {
-            var imageInfo = this.GetCurrentImage();
+            var imageInfo = GetCurrentImage();
             //Load the image(probably from your stream)
             var image = Image.FromFile(imageInfo.Path);
 
@@ -172,7 +172,7 @@ namespace Alturos.Yolo.TestUI
                     var width = item.Width;
                     var height = item.Height;
 
-                    var brush = this.GetBrush(item.Confidence);
+                    var brush = GetBrush(item.Confidence);
                     var penSize = image.Width / 100.0f;
 
                     using (var pen = new Pen(brush, penSize))
@@ -190,14 +190,14 @@ namespace Alturos.Yolo.TestUI
                 canvas.Flush();
             }
 
-            var oldImage = this.pictureBox1.Image;
-            this.pictureBox1.Image = image;
+            var oldImage = pictureBox1.Image;
+            pictureBox1.Image = image;
             oldImage?.Dispose();
         }
 
         private void DrawBoundingBoxes(List<YoloItem> items, YoloItem selectedItem = null)
         {
-            var imageInfo = this.GetCurrentImage();
+            var imageInfo = GetCurrentImage();
             //Load the image(probably from your stream)
             var image = Image.FromFile(imageInfo.Path);
 
@@ -210,7 +210,7 @@ namespace Alturos.Yolo.TestUI
                     var width = item.Width;
                     var height = item.Height;
                     
-                    var brush = this.GetBrush(item.Confidence);
+                    var brush = GetBrush(item.Confidence);
                     var penSize = image.Width / 100.0f;
 
                     using (var pen = new Pen(brush, penSize))
@@ -228,8 +228,8 @@ namespace Alturos.Yolo.TestUI
                 canvas.Flush();
             }
 
-            var oldImage = this.pictureBox1.Image;
-            this.pictureBox1.Image = image;
+            var oldImage = pictureBox1.Image;
+            pictureBox1.Image = image;
             oldImage?.Dispose();
         }
 
@@ -258,7 +258,7 @@ namespace Alturos.Yolo.TestUI
                     return;
                 }
 
-                this.Initialize(config);
+                Initialize(config);
             }
             catch (Exception exception)
             {
@@ -271,34 +271,34 @@ namespace Alturos.Yolo.TestUI
         {
             try
             {
-                if (this._yoloWrapper != null)
+                if (_yoloWrapper != null)
                 {
-                    this._yoloWrapper.Dispose();
+                    _yoloWrapper.Dispose();
                 }
 
                 var gpuConfig = new GpuConfig();
-                var useOnlyCpu = this.cpuToolStripMenuItem.Checked;
+                var useOnlyCpu = cpuToolStripMenuItem.Checked;
                 if (useOnlyCpu)
                 {
                     gpuConfig = null;
                 }
 
-                this.toolStripStatusLabelYoloInfo.Text = $"Initialize...";
+                toolStripStatusLabelYoloInfo.Text = $"Initialize...";
 
                 var sw = new Stopwatch();
                 sw.Start();
-                this._yoloWrapper = new YoloWrapper(config.ConfigFile, config.WeightsFile, config.NamesFile, gpuConfig);
+                _yoloWrapper = new YoloWrapper(config.ConfigFile, config.WeightsFile, config.NamesFile, gpuConfig);
                 sw.Stop();
 
                 var action = new MethodInvoker(delegate ()
                 {
-                    var deviceName = this._yoloWrapper.GetGraphicDeviceName(gpuConfig);
-                    this.toolStripStatusLabelYoloInfo.Text = $"Initialize Yolo in {sw.Elapsed.TotalMilliseconds:0} ms - Detection System:{this._yoloWrapper.DetectionSystem} {deviceName} Weights:{config.WeightsFile}";
+                    var deviceName = _yoloWrapper.GetGraphicDeviceName(gpuConfig);
+                    toolStripStatusLabelYoloInfo.Text = $"Initialize Yolo in {sw.Elapsed.TotalMilliseconds:0} ms - Detection System:{_yoloWrapper.DetectionSystem} {deviceName} Weights:{config.WeightsFile}";
                 });
 
-                this.statusStrip1.Invoke(action);
-                this.buttonProcessImage.Invoke(new MethodInvoker(delegate () { this.buttonProcessImage.Enabled = true; }));
-                this.buttonStartTracking.Invoke(new MethodInvoker(delegate () { this.buttonStartTracking.Enabled = true; }));
+                statusStrip1.Invoke(action);
+                buttonProcessImage.Invoke(new MethodInvoker(delegate () { buttonProcessImage.Enabled = true; }));
+                buttonStartTracking.Invoke(new MethodInvoker(delegate () { buttonStartTracking.Enabled = true; }));
             }
             catch (Exception exception)
             {
@@ -308,19 +308,19 @@ namespace Alturos.Yolo.TestUI
 
         private void DetectSelectedImage()
         {
-            var items = this.Detect();
-            this.dataGridViewResult.DataSource = items;
-            this.DrawBoundingBoxes(items);
+            var items = Detect();
+            dataGridViewResult.DataSource = items;
+            DrawBoundingBoxes(items);
         }
 
         private List<YoloItem> Detect(bool memoryTransfer = true)
         {
-            if (this._yoloWrapper == null)
+            if (_yoloWrapper == null)
             {
                 return null;
             }
 
-            var imageInfo = this.GetCurrentImage();
+            var imageInfo = GetCurrentImage();
             var imageData = File.ReadAllBytes(imageInfo.Path);
 
             var sw = new Stopwatch();
@@ -328,35 +328,35 @@ namespace Alturos.Yolo.TestUI
             List<YoloItem> items;
             if (memoryTransfer)
             {
-                items = this._yoloWrapper.Detect(imageData).ToList();
+                items = _yoloWrapper.Detect(imageData).ToList();
             }
             else
             {
-                items = this._yoloWrapper.Detect(imageInfo.Path).ToList();
+                items = _yoloWrapper.Detect(imageInfo.Path).ToList();
             }
             sw.Stop();
-            this.groupBoxResult.Text = $"Result [ processed in {sw.Elapsed.TotalMilliseconds:0} ms ]";
+            groupBoxResult.Text = $"Result [ processed in {sw.Elapsed.TotalMilliseconds:0} ms ]";
 
             return items;
         }
 
         private void gpuToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            this.cpuToolStripMenuItem.Checked = !this.cpuToolStripMenuItem.Checked;
+            cpuToolStripMenuItem.Checked = !cpuToolStripMenuItem.Checked;
         }
 
         private async void downloadToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            var repository = new YoloPreTrainedDatasetRepository();
-            var datasets = await repository.GetDatasetsAsync();
-            foreach (var dataset in datasets)
+            var repository = new YoloPreTrainedDataSetRepository();
+            var dataSets = await repository.GetDataSetsAsync();
+            foreach (var dataSet in dataSets)
             {
-                this.statusStrip1.Invoke(new MethodInvoker(delegate () { this.toolStripStatusLabelYoloInfo.Text = $"Start download for {dataset} dataset..."; }));
-                await repository.DownloadDatasetAsync(dataset, $@"config\{dataset}");
+                statusStrip1.Invoke(new MethodInvoker(delegate () { toolStripStatusLabelYoloInfo.Text = $"Start download for {dataSet} dataset..."; }));
+                await repository.DownloadDataSetAsync(dataSet, $@"config\{dataSet}");
             }
 
-            this.LoadAvailableConfigurations();
-            this.statusStrip1.Invoke(new MethodInvoker(delegate () { this.toolStripStatusLabelYoloInfo.Text = $"Download done"; }));
+            LoadAvailableConfigurations();
+            statusStrip1.Invoke(new MethodInvoker(delegate () { toolStripStatusLabelYoloInfo.Text = $"Download done"; }));
         }
     }
 }

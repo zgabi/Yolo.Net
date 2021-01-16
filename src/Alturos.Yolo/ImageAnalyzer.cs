@@ -14,9 +14,9 @@ namespace Alturos.Yolo
             var png = new byte[] { 137, 80, 78, 71 }; //PNG
             var jpeg = new byte[] { 255, 216, 255 };  //JPEG
 
-            this._imageFormats.Add("bmp", bmp);
-            this._imageFormats.Add("png", png);
-            this._imageFormats.Add("jpeg", jpeg);
+            _imageFormats.Add("bmp", bmp);
+            _imageFormats.Add("png", png);
+            _imageFormats.Add("jpeg", jpeg);
         }
 
         public bool IsValidImageFormat(byte[] imageData)
@@ -31,7 +31,7 @@ namespace Alturos.Yolo
                 return false;
             }
 
-            foreach (var imageFormat in this._imageFormats)
+            foreach (var imageFormat in _imageFormats)
             {
                 if (imageData.Take(imageFormat.Value.Length).SequenceEqual(imageFormat.Value))
                 {

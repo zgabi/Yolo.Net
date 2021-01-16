@@ -4,35 +4,37 @@ namespace Alturos.Yolo.Model
 {
     internal class YoloTrackingItemExtended : YoloItem
     {
-        public string ObjectId { get; private set; }
+        public string ObjectId { get; }
+
         public int ProcessIndex { get; set; }
+        
         public double TrackingConfidence { get; private set; }
 
         public YoloTrackingItemExtended(YoloItem item, string objectId)
         {
-            this.ObjectId = objectId;
+            ObjectId = objectId;
 
-            this.Type = item.Type;
-            this.Confidence = item.Confidence;
-            this.X = item.X;
-            this.Y = item.Y;
-            this.Width = item.Width;
-            this.Height = item.Height;
+            Type = item.Type;
+            Confidence = item.Confidence;
+            X = item.X;
+            Y = item.Y;
+            Width = item.Width;
+            Height = item.Height;
         }
 
         public void IncreaseTrackingConfidence()
         {
-            if (this.TrackingConfidence < 100)
+            if (TrackingConfidence < 100)
             {
-                this.TrackingConfidence += 5;
+                TrackingConfidence += 5;
             }
         }
 
         public void DecreaseTrackingConfidence()
         {
-            if (this.TrackingConfidence > 0)
+            if (TrackingConfidence > 0)
             {
-                this.TrackingConfidence -= 5;
+                TrackingConfidence -= 5;
             }
         }
     }
