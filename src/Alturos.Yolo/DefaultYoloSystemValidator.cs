@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Runtime.InteropServices;
+using System.Text.RegularExpressions;
 
 namespace Alturos.Yolo
 {
@@ -52,37 +53,55 @@ namespace Alturos.Yolo
         {
             //Detect if Visual C++ Redistributable for Visual Studio is installed
             //https://stackoverflow.com/questions/12206314/detect-if-visual-c-redistributable-for-visual-studio-2012-is-installed/
-            var checkKeys = new Dictionary<string, string>
-            {
-                { @"Installer\Dependencies\,,amd64,14.0,bundle", "Microsoft Visual C++ 2017 Redistributable (x64)" },
-                { @"Installer\Dependencies\VC,redist.x64,amd64,14.16,bundle", "Microsoft Visual C++ 2017 Redistributable (x64)" },
-                { @"Installer\Dependencies\VC,redist.x64,amd64,14.20,bundle", "Microsoft Visual C++ 2015-2019 Redistributable (x64)" },
-                { @"Installer\Dependencies\VC,redist.x64,amd64,14.21,bundle", "Microsoft Visual C++ 2015-2019 Redistributable (x64)" },
-                { @"Installer\Dependencies\VC,redist.x64,amd64,14.22,bundle", "Microsoft Visual C++ 2015-2019 Redistributable (x64)" },
-                { @"Installer\Dependencies\VC,redist.x64,amd64,14.23,bundle", "Microsoft Visual C++ 2015-2019 Redistributable (x64)" },
-                { @"Installer\Dependencies\VC,redist.x64,amd64,14.24,bundle", "Microsoft Visual C++ 2015-2019 Redistributable (x64)" },
-                { @"Installer\Dependencies\VC,redist.x64,amd64,14.25,bundle", "Microsoft Visual C++ 2015-2019 Redistributable (x64)" },
-                { @"Installer\Dependencies\VC,redist.x64,amd64,14.26,bundle", "Microsoft Visual C++ 2015-2019 Redistributable (x64)" }
-            };
+            const string subKeyOld = ",,amd64,14.0,bundle";
+            var regexSubKeyName = new Regex(@"VC,redist.x64,amd64,(?<versionMajor>\d+)\.(?<versionMinor>\d+),bundle", RegexOptions.Compiled);
+            var regexDisplayName = new Regex(@"Microsoft Visual C\+\+ [\d-]+ Redistributable \(x64\).*", RegexOptions.Compiled | RegexOptions.IgnoreCase);
 
-            foreach (var checkKey in checkKeys)
+            using (var registryKey = Registry.ClassesRoot.OpenSubKey(@"Installer\Dependencies", false))
             {
-                using (var registryKey = Registry.ClassesRoot.OpenSubKey(checkKey.Key, false))
+                if (registryKey == null)
                 {
-                    if (registryKey == null)
+                    return false;
+                }
+
+                foreach (var subKeyName in registryKey.GetSubKeyNames())
+                {
+                    int versionMajor = 0;
+                    int versionMinor = 0;
+                    if (subKeyName == subKeyOld)
                     {
-                        continue;
+                        versionMajor = 14;
+                        versionMinor = 0;
+                    }
+                    else
+                    {
+                        var match = regexSubKeyName.Match(subKeyName);
+                        if (match.Success)
+                        {
+                            int.TryParse(match.Groups["versionMajor"].Value, out versionMajor);
+                            int.TryParse(match.Groups["versionMinor"].Value, out versionMinor);
+                        }
                     }
 
-                    var displayName = registryKey.GetValue("DisplayName") as string;
-                    if (string.IsNullOrEmpty(displayName))
+                    // accept 14.0 or 14.16+
+                    if (versionMajor > 14 || (versionMajor == 14 && (versionMinor == 0 || versionMinor >= 16)))
                     {
-                        continue;
-                    }
+                        var subKey = registryKey.OpenSubKey(subKeyName, false);
+                        if (subKey == null)
+                        {
+                            continue;
+                        }
 
-                    if (displayName.StartsWith(checkKey.Value, StringComparison.OrdinalIgnoreCase))
-                    {
-                        return true;
+                        var displayName = subKey.GetValue("DisplayName") as string;
+                        if (string.IsNullOrEmpty(displayName))
+                        {
+                            continue;
+                        }
+
+                        if (regexDisplayName.IsMatch(displayName))
+                        {
+                            return true;
+                        }
                     }
                 }
             }
