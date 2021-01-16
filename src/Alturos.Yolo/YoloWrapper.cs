@@ -221,7 +221,6 @@ namespace Alturos.Yolo
             {
                 fixed (byte* pnt = imageData)
                 {
-                    // Copy the array to unmanaged memory.
                     switch (DetectionSystem)
                     {
                         case DetectionSystem.CPU:
