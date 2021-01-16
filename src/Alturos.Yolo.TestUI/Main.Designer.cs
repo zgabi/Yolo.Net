@@ -331,8 +331,8 @@
             // 
             // cpuToolStripMenuItem
             // 
-            this.cpuToolStripMenuItem.Checked = true;
-            this.cpuToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.cpuToolStripMenuItem.Checked = false;
+            this.cpuToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Unchecked;
             this.cpuToolStripMenuItem.Name = "cpuToolStripMenuItem";
             this.cpuToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.cpuToolStripMenuItem.Text = "Use only cpu";
