@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 using System.Text;
 
 namespace Alturos.Yolo
@@ -26,14 +25,25 @@ namespace Alturos.Yolo
                 return false;
             }
 
-            if (imageData.Length <= 3)
+            if (imageData.Length <= 4)
             {
                 return false;
             }
 
             foreach (var imageFormat in _imageFormats)
             {
-                if (imageData.Take(imageFormat.Value.Length).SequenceEqual(imageFormat.Value))
+                var expected = imageFormat.Value;
+                bool ok = true;
+                for (int i = 0; i < expected.Length; i++)
+                {
+                    if (imageData[i] != expected[i])
+                    {
+                        ok = false;
+                        break;
+                    }
+                }
+
+                if (ok)
                 {
                     return true;
                 }

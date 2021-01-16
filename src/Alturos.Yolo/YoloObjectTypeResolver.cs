@@ -30,7 +30,7 @@ namespace Alturos.Yolo
 
         public string Resolve(int objectId)
         {
-            if (!_objectType.TryGetValue((int)objectId, out var objectType))
+            if (!_objectType.TryGetValue(objectId, out var objectType))
             {
                 return "unknown key";
             }

@@ -63,7 +63,7 @@ namespace Alturos.Yolo.TestUI
             {
                 var menuItem = new ToolStripMenuItem();
                 menuItem.Text = config;
-                menuItem.Click += (object sender, EventArgs e) => { Initialize(config); };
+                menuItem.Click += (sender, e) => { Initialize(config); };
                 configurationToolStripMenuItem.DropDownItems.Add(menuItem);
             }
         }
@@ -184,7 +184,7 @@ namespace Alturos.Yolo.TestUI
 
                 foreach (var item in items)
                 {
-                    canvas.DrawString(item.ObjectId.ToString(), font, Brushes.White, item.X, item.Y - 12);
+                    canvas.DrawString(item.ObjectId, font, Brushes.White, item.X, item.Y - 12);
                 }
 
                 canvas.Flush();
@@ -263,7 +263,6 @@ namespace Alturos.Yolo.TestUI
             catch (Exception exception)
             {
                 MessageBox.Show($"Cannot found a valid dataset {exception}", "No Dataset available", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return;
             }
         }
 
@@ -290,15 +289,15 @@ namespace Alturos.Yolo.TestUI
                 _yoloWrapper = new YoloWrapper(config.ConfigFile, config.WeightsFile, config.NamesFile, gpuConfig);
                 sw.Stop();
 
-                var action = new MethodInvoker(delegate ()
+                var action = new MethodInvoker(delegate
                 {
                     var deviceName = _yoloWrapper.GetGraphicDeviceName(gpuConfig);
                     toolStripStatusLabelYoloInfo.Text = $"Initialize Yolo in {sw.Elapsed.TotalMilliseconds:0} ms - Detection System:{_yoloWrapper.DetectionSystem} {deviceName} Weights:{config.WeightsFile}";
                 });
 
                 statusStrip1.Invoke(action);
-                buttonProcessImage.Invoke(new MethodInvoker(delegate () { buttonProcessImage.Enabled = true; }));
-                buttonStartTracking.Invoke(new MethodInvoker(delegate () { buttonStartTracking.Enabled = true; }));
+                buttonProcessImage.Invoke(new MethodInvoker(delegate { buttonProcessImage.Enabled = true; }));
+                buttonStartTracking.Invoke(new MethodInvoker(delegate { buttonStartTracking.Enabled = true; }));
             }
             catch (Exception exception)
             {
@@ -334,6 +333,7 @@ namespace Alturos.Yolo.TestUI
             {
                 items = _yoloWrapper.Detect(imageInfo.Path).ToList();
             }
+
             sw.Stop();
             groupBoxResult.Text = $"Result [ processed in {sw.Elapsed.TotalMilliseconds:0} ms ]";
 
@@ -351,12 +351,12 @@ namespace Alturos.Yolo.TestUI
             var dataSets = await repository.GetDataSetsAsync();
             foreach (var dataSet in dataSets)
             {
-                statusStrip1.Invoke(new MethodInvoker(delegate () { toolStripStatusLabelYoloInfo.Text = $"Start download for {dataSet} dataset..."; }));
+                statusStrip1.Invoke(new MethodInvoker(delegate { toolStripStatusLabelYoloInfo.Text = $"Start download for {dataSet} dataset..."; }));
                 await repository.DownloadDataSetAsync(dataSet, $@"config\{dataSet}");
             }
 
             LoadAvailableConfigurations();
-            statusStrip1.Invoke(new MethodInvoker(delegate () { toolStripStatusLabelYoloInfo.Text = $"Download done"; }));
+            statusStrip1.Invoke(new MethodInvoker(delegate { toolStripStatusLabelYoloInfo.Text = $"Download done"; }));
         }
     }
 }

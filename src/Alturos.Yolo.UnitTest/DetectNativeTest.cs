@@ -48,8 +48,8 @@ namespace Alturos.Yolo.UnitTest
         public static IntPtr CreateBmp(IntPtr imageData, int width, int height, out int resultSize)
         {
             int size = width * height * 4;
-            const bool v5header = true;
-            const int dibHeaderSize = v5header ? 124 : 40; // BITMAPINFOHEADER: 40, BITMAPV5HEADER: 136
+            const bool v5Header = true;
+            const int dibHeaderSize = v5Header ? 124 : 40; // BITMAPINFOHEADER: 40, BITMAPV5HEADER: 136
             const int extraSize = 12;
             int bmpSize = size + 14 + dibHeaderSize + extraSize /* BMP header size */;
             var pnt = Marshal.AllocHGlobal(bmpSize);
@@ -153,7 +153,7 @@ namespace Alturos.Yolo.UnitTest
                 *p++ = 0;
                 *p++ = 0;
 
-                if (v5header)
+                if (v5Header)
                 {
                     // red mask
                     *p++ = 0;

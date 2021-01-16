@@ -86,6 +86,7 @@ namespace Alturos.Yolo
         /// <param name="weightsFilename">Yolo trained data (.weights) file path</param>
         /// <param name="namesFilename">Yolo object names (.names) file path</param>
         /// <param name="gpuConfig">Gpu Index if multiple graphic devices available</param>
+        /// <param name="yoloSystemValidator">Yolo System validator</param>
         /// <exception cref="NotSupportedException">Thrown when the process not run in 64bit</exception>
         /// <exception cref="YoloInitializeException">Thrown if an error occurs during initialization</exception>
         public YoloWrapper(string configurationFilename, string weightsFilename, string namesFilename, GpuConfig gpuConfig = null, IYoloSystemValidator yoloSystemValidator = null)

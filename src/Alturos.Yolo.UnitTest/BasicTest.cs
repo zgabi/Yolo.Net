@@ -27,7 +27,7 @@ namespace Alturos.Yolo.UnitTest
             using (var yoloWrapper = new YoloWrapper(configuration))
             {
                 var items = yoloWrapper.Detect(_imagePath);
-                Assert.IsTrue(items.Count() > 0);
+                Assert.IsTrue(items.Any());
             }
         }
 
@@ -39,7 +39,7 @@ namespace Alturos.Yolo.UnitTest
             {
                 var imageData = File.ReadAllBytes(_imagePath);
                 var items = yoloWrapper.Detect(imageData);
-                Assert.IsTrue(items.Count() > 0);
+                Assert.IsTrue(items.Any());
             }
         }
     }
