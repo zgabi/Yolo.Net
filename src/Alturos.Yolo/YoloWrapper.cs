@@ -73,9 +73,10 @@ namespace Alturos.Yolo
         {
             if (yoloSystemValidator == null)
             {
-                _yoloSystemValidator = new DefaultYoloSystemValidator();
+                yoloSystemValidator = new DefaultYoloSystemValidator();
             }
 
+            _yoloSystemValidator = yoloSystemValidator;
             Initialize(yoloConfiguration.ConfigFile, yoloConfiguration.WeightsFile, yoloConfiguration.NamesFile, gpuConfig);
         }
 
@@ -93,9 +94,10 @@ namespace Alturos.Yolo
         {
             if (yoloSystemValidator == null)
             {
-                _yoloSystemValidator = new DefaultYoloSystemValidator();
+                yoloSystemValidator = new DefaultYoloSystemValidator();
             }
 
+            _yoloSystemValidator = yoloSystemValidator;
             Initialize(configurationFilename, weightsFilename, namesFilename, gpuConfig);
         }
 
@@ -130,6 +132,11 @@ namespace Alturos.Yolo
             int gpuIndex = 0;
             if (gpuConfig != null)
             {
+                if (!systemReport.YoloGpuDll)
+                {
+                    throw new YoloInitializeException("yolo_cpp_dll_gpu.dll not found");
+                }
+
                 if (!systemReport.CudaExists)
                 {
                     throw new YoloInitializeException("CUDA files not found");

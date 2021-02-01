@@ -13,7 +13,7 @@
     <RepositoryUrl>https://github.com/AlturosDestinations/Alturos.Yolo</RepositoryUrl>
     <PackageLicenseFile>LICENSE.md</PackageLicenseFile>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <Version>3.0.6-alpha</Version>
+    <Version>3.0.6-alpha.2</Version>
     <AssemblyVersion>3.0.6</AssemblyVersion>
     <FileVersion>3.0.6</FileVersion>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
