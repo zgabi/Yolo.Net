@@ -62,6 +62,16 @@ It is important to use the mentioned version `10.2`
 3) [Download Nvidia cuDNN v7.6.5 for CUDA 10.2](https://developer.nvidia.com/rdp/cudnn-download)
 4) Copy the `cudnn64_7.dll` from the output directory of point 2. into the project folder.
 
+### Ampere architecture (RTX3000) requirements (optional)
+
+It is important to use the mentioned version `CUDA11.1`
+
+1) Install the latest Nvidia driver for your graphic device
+2) [Install Nvidia CUDA Toolkit 11.1](https://developer.nvidia.com/cuda-downloads) (must be installed add a hardware driver for cuda support)
+3) [Download Nvidia cuDNN v8.0.5 for CUDA 11.1](https://developer.nvidia.com/rdp/cudnn-download)
+4) Copy the `cudnn64_8.dll` from the output directory of point 2. into the project folder
+4) Copy [opencv_world452.dll](https://sourceforge.net/projects/opencvlibrary/files/4.5.2/opencv-4.5.2-vc14_vc15.exe/download) to output directory.
+
 ## Build requirements
 - Visual Studio 2019
 
