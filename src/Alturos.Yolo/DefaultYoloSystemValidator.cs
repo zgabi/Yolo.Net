@@ -14,6 +14,9 @@ namespace Alturos.Yolo
         public static byte[] CudnnPattern = Encoding.ASCII.GetBytes("cudnn64_*.dll\0");
         public static byte[] CudartPattern = Encoding.ASCII.GetBytes("cudart64_*.dll\0");
 
+        private int _cudartVersion;
+        private const int CudartVersionForAmpere = 111;
+
         public SystemValidationReport Validate()
         {
             var report = new SystemValidationReport();
@@ -51,6 +54,7 @@ namespace Alturos.Yolo
                 if (FindVersion(data, CudartPattern, out version))
                 {
                     cudartVersion = version;
+                    _cudartVersion = version;
                 }
             }
 
@@ -74,6 +78,11 @@ namespace Alturos.Yolo
             }
 
             return report;
+        }
+
+        public bool IsCudaVersion111()
+        {
+            return _cudartVersion == CudartVersionForAmpere;
         }
 
         private bool FindVersion(byte[] data, byte[] pattern, out int version)
