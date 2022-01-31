@@ -42,7 +42,7 @@ namespace Alturos.Yolo
         #region DllImport Gpu
 
         [DllImport(YoloLibraryGpu, EntryPoint = "init")]
-        private static extern int InitializeYoloGpu(string configurationFilename, string weightsFilename, int gpuIndex);
+        private static extern int InitializeYoloGpu(string configurationFilename, string weightsFilename, int gpuIndex, int batchSize);
 
         [DllImport(YoloLibraryGpu, EntryPoint = "detect_image")]
         private static extern int DetectImageGpu(string filename, ref BboxContainer container);
@@ -114,7 +114,7 @@ namespace Alturos.Yolo
             }
         }
 
-        private void Initialize(string configurationFilename, string weightsFilename, string namesFilename, GpuConfig gpuConfig)
+        private void Initialize(string configurationFilename, string weightsFilename, string namesFilename, GpuConfig gpuConfig, int batchSize = 1)
         {
             if (IntPtr.Size != 8)
             {
@@ -168,7 +168,7 @@ namespace Alturos.Yolo
                     InitializeYoloCpu(configurationFilename, weightsFilename, 0);
                     break;
                 case DetectionSystem.GPU:
-                    InitializeYoloGpu(configurationFilename, weightsFilename, gpuIndex);
+                    InitializeYoloGpu(configurationFilename, weightsFilename, gpuIndex, batchSize);
                     break;
             }
 
