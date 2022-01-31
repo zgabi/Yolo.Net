@@ -173,7 +173,7 @@ namespace Alturos.Yolo
                     break;
                 case DetectionSystem.GPU:
 
-                    if (_yoloSystemValidator.IsCudaVersion111())
+                    if (_yoloSystemValidator.IsCudaVersion110())
                     {
                         InitializeYoloGpuWithBatchSize(configurationFilename, weightsFilename, gpuIndex, batchSize);
                     }

@@ -15,7 +15,7 @@ namespace Alturos.Yolo
         public static byte[] CudartPattern = Encoding.ASCII.GetBytes("cudart64_*.dll\0");
 
         private int _cudartVersion;
-        private const int CudartVersionForAmpere = 111;
+        private const int CudartVersionForAmpere = 110;
 
         public SystemValidationReport Validate()
         {
@@ -80,7 +80,7 @@ namespace Alturos.Yolo
             return report;
         }
 
-        public bool IsCudaVersion111()
+        public bool IsCudaVersion110()
         {
             return _cudartVersion == CudartVersionForAmpere;
         }

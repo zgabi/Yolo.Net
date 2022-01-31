@@ -6,6 +6,6 @@ namespace Alturos.Yolo
     {
         SystemValidationReport Validate();
 
-        bool IsCudaVersion111();
+        bool IsCudaVersion110();
     }
 }
