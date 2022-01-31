@@ -5,5 +5,7 @@ namespace Alturos.Yolo
     public interface IYoloSystemValidator
     {
         SystemValidationReport Validate();
+
+        bool IsCudaVersion110();
     }
 }
