@@ -10,13 +10,12 @@ namespace Alturos.Yolo.UnitTest
         private readonly string _imagePath = @"Images\Motorbike1.png";
 
         [TestMethod]
-        [ExpectedException(typeof(FileNotFoundException))]
         public void FileNotFoundTest()
         {
             var configuration = new YoloConfigurationDetector().Detect();
             using (var yoloWrapper = new YoloWrapper(configuration))
             {
-                yoloWrapper.Detect("image-not-exists.jpg");
+                Assert.ThrowsExactly<FileNotFoundException>(() => yoloWrapper.Detect("image-not-exists.jpg"));
             }
         }
 

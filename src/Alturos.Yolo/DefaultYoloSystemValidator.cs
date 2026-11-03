@@ -166,7 +166,7 @@ namespace Alturos.Yolo
             //https://stackoverflow.com/questions/12206314/detect-if-visual-c-redistributable-for-visual-studio-2012-is-installed/
             const string subKeyOld = ",,amd64,14.0,bundle";
             var regexSubKeyName = new Regex(@"VC,redist.x64,amd64,(?<versionMajor>\d+)\.(?<versionMinor>\d+),bundle", RegexOptions.Compiled);
-            var regexDisplayName = new Regex(@"Microsoft Visual C\+\+ [\d-]+ Redistributable \(x64\).*", RegexOptions.Compiled | RegexOptions.IgnoreCase);
+            var regexDisplayName = new Regex(@"^Microsoft Visual C\+\+ v?[\d-]+ Redistributable \(x64\).*$", RegexOptions.Compiled | RegexOptions.IgnoreCase);
 
             using (var registryKey = Registry.ClassesRoot.OpenSubKey(@"Installer\Dependencies", false))
             {

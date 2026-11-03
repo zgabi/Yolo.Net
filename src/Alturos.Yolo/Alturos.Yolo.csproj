@@ -1,19 +1,20 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
+    <PackageId>Yolo.Net</PackageId>
     <TargetFrameworks>netstandard2.0;net461</TargetFrameworks>
     <Description>Yolo Darknet Wrapper, Real-Time Object Detection (yolo core of AlexeyAB/darknet), CUDA 10.1</Description>
-    <Authors>Alturos Destinations</Authors>
+    <Authors>Alturos Destinations, ZGabi</Authors>
     <Company>Alturos Destinations</Company>
     <PackageTags>darknet yolo yolo3 yolov3 yolo2 yolov2 objectdetection object-detection neural-network dnn deep-learning</PackageTags>
     <PackageReleaseNotes>.netstandard 2.0 support, add linux support, optimize folder structure</PackageReleaseNotes>
     <PackageIconUrl>https://raw.githubusercontent.com/AlturosDestinations/Alturos.Yolo/master/doc/logo.png</PackageIconUrl>
     <PackageIcon>logo.png</PackageIcon>
-    <PackageProjectUrl>https://github.com/AlturosDestinations/Alturos.Yolo</PackageProjectUrl>
-    <RepositoryUrl>https://github.com/AlturosDestinations/Alturos.Yolo</RepositoryUrl>
+    <PackageProjectUrl>https://github.com/zgabi/Yolo.Net</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/zgabi/Yolo.Net</RepositoryUrl>
     <PackageLicenseFile>LICENSE.md</PackageLicenseFile>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <Version>3.0.6-alpha.2</Version>
+    <Version>3.0.6-alpha.4</Version>
     <AssemblyVersion>3.0.6</AssemblyVersion>
     <FileVersion>3.0.6</FileVersion>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
@@ -21,8 +22,8 @@
 
   <!-- Only for .netstandard 2.0 -->
   <ItemGroup Condition="'$(TargetFramework)' == 'netstandard2.0'">
-    <PackageReference Include="Microsoft.Win32.Registry" Version="4.7.0" />
-    <PackageReference Include="System.Drawing.Common" Version="4.7.0" />
+    <PackageReference Include="Microsoft.Win32.Registry" Version="5.0.0" />
+    <PackageReference Include="System.Drawing.Common" Version="10.0.14" />
   </ItemGroup>
 
   <!-- Only for .net4-->
